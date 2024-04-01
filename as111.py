@@ -225,7 +225,7 @@ class AS111():
         if returncode != 0:
             return
 
-        sink_name_pattern = ".*name: <bluez_sink\.(%s)\.a2dp_sink>" % self._MAC_PATTERN.replace(
+        sink_name_pattern = ".*name: <bluez_sink\\.(%s)\\.a2dp_sink>" % self._MAC_PATTERN.replace(
             ":", "_")
 
         _device = None
