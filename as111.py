@@ -50,7 +50,7 @@ def log(msg, level=INFO):
 
 class AS111():
 
-    _MAC_PATTERN = "00:1D:DF:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"
+    _MAC_PATTERN = r"00:1D:DF:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"
 
     _KNOWNDOCKS_FILE = ".known_as111"
     _STOP_SIGNAL_FILE = ".as111_stop"
@@ -225,7 +225,7 @@ class AS111():
         if returncode != 0:
             return
 
-        sink_name_pattern = ".*name: <bluez_sink\.(%s)\.a2dp_sink>" % self._MAC_PATTERN.replace(
+        sink_name_pattern = r".*name: <bluez_sink\.(%s)\.a2dp_sink>" % self._MAC_PATTERN.replace(
             ":", "_")
 
         _device = None
@@ -765,9 +765,11 @@ def do_commands(as111, address, commands):
         elif command == "vol":
             if commands[0][0] in "-+":
                 device = as111.get_current_device()
-                vol = device["volume"] + int(commands[0])
+                value = "".join(filter(str.isdigit, commands[0]))
+                vol = device["volume"] + int(commands[0][0] + (value or "0"))
             else:
-                vol = int(commands[0])
+                value = "".join(filter(str.isdigit, commands[0]))
+                vol = int(value or "0")
 
             try:
                 as111.set_volume(vol)
