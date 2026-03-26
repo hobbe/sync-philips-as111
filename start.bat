@@ -1,0 +1,1 @@
+start pythonw tray_app.py
